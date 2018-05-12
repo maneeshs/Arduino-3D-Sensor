@@ -6,6 +6,7 @@ void setup() {
         pinMode(12, OUTPUT);
 }
 
+// main section
 void loop() {
 
         // send data only when you receive data:
@@ -14,17 +15,18 @@ void loop() {
                 incomingByte = Serial.read();
                 data = 1;
 
-                if (incomingByte == 48) {
-                  digitalWrite(12, LOW);
+                if (incomingByte == 48) { // if it recevies a 0
+                  digitalWrite(12, LOW); //turn off the magnet
                   Serial.print("0");
                   delay(100);
-                }else if (incomingByte == 49) {
-                  digitalWrite(12, HIGH);
+                }else if (incomingByte == 49) { //if it recieves a 1
+                  digitalWrite(12, HIGH); //turn on the magnet
                   Serial.print("1");
                   delay(100);
                 }else{
                   Serial.print("?");
                 }
+        //clean things up        
         }else{
           if (data == 1){
             digitalWrite(12, LOW);
