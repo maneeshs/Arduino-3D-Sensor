@@ -4,6 +4,8 @@ int data = 0;
 void setup() {
         Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
         pinMode(12, OUTPUT);
+        Serial.println("Starting...");
+        Serial.println("Send a string of binary digits");
 }
 
 // main section
