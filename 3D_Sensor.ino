@@ -1,31 +1,36 @@
+// set stuff up
 #include <Tle493d_w2b6.h>
-
-Tle493d_w2b6 Tle493dMagnetic3DSensor = Tle493d_w2b6(Tle493d_w2b6::LOWPOWERMODE);
+Tle493d_w2b6 mag3DSensor = Tle493d_w2b6();
+ 
 void setup() {
-  Serial.begin(9600);
-  while (!Serial);
-  Tle493dMagnetic3DSensor.begin();
-  //The highest adjustable range is used for all three directions, i.e., within half of the total value range INT is disabled 
-  Tle493dMagnetic3DSensor.setWakeUpThreshold(1,-1,1,-1,1,-1);
-
-  //The update rate is set to 3 (fastest is 0 and slowest is 7)
-  Tle493dMagnetic3DSensor.setUpdateRate(3);
-  pinMode(14, OUTPUT);
+ 
+  // more setup
+  mag3DSensor.begin();
+ 
+  mag3DSensor.enableTemp();
+  
+  pinMode(LED_BUILTIN, OUTPUT);
+ 
 }
-
+ 
 void loop() {
-  Tle493dMagnetic3DSensor.updateData();
-
-  Serial.print(Tle493dMagnetic3DSensor.getX());
-  Serial.print(" ; ");
-  Serial.print(Tle493dMagnetic3DSensor.getY());
-  Serial.print(" ; ");
-  Serial.println(Tle493dMagnetic3DSensor.getZ());
-
-  if (Tle493dMagnetic3DSensor.getX() > -1.0) {
-    digitalWrite(14, HIGH);
+  
+  // get sensor info
+  mag3DSensor.updateData();
+ 
+   //check if there's a magnet 
+   if (abs(mag3DSensor.getX()) > 1.0 || abs(mag3DSensor.getY()) > 1.0 || abs(mag3DSensor.getZ()) > 1.0 ) {
+     
+    //turn on the light
+    digitalWrite(LED_BUILTIN, HIGH);
+  
   } else {
-    digitalWrite(14, LOW);
+     
+    //turn off the light
+    digitalWrite(LED_BUILTIN, LOW);
+   
   }
-  delay(500);
+  // don't spam, kids
+  delay(50);
+ 
 }
